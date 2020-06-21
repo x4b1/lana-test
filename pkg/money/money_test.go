@@ -58,5 +58,5 @@ func TestAppliesCorrecltyDiscountToAmount(t *testing.T) {
 }
 
 func TestPrintsAmountCorrecltyFormated(t *testing.T) {
-	require.Equal(t, "10.50?", money.Eur(1050).String())
+	require.Equal(t, "10.50\u20ac", money.Eur(1050).String())
 }

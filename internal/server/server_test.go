@@ -96,19 +96,19 @@ func (s *ServerSuite) TestGetTotalSucess() {
 	cases := map[string]testCase{
 		"no discounts": {
 			items:    []string{"PEN", "TSHIRT", "MUG"},
-			expected: "32.50?",
+			expected: "32.50\u20ac",
 		},
 		"buy 2 pay 1": {
 			items:    []string{"PEN", "TSHIRT", "PEN"},
-			expected: "25.00?",
+			expected: "25.00\u20ac",
 		},
 		"t-shirt bulk purchase": {
 			items:    []string{"TSHIRT", "TSHIRT", "TSHIRT", "PEN", "TSHIRT"},
-			expected: "65.00?",
+			expected: "65.00\u20ac",
 		},
 		"both discounts": {
 			items:    []string{"PEN", "TSHIRT", "PEN", "PEN", "MUG", "TSHIRT", "TSHIRT"},
-			expected: "62.50?",
+			expected: "62.50\u20ac",
 		},
 	}
 

@@ -28,7 +28,7 @@ type Currency string
 func (c Currency) Symbol() string {
 	switch c {
 	case EUR:
-		return "?"
+		return "\u20ac"
 	case USD:
 		return "$"
 	}
