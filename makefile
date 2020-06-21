@@ -1,6 +1,6 @@
 .PHONY: run
 run:
-	@docker-compose -f docker-compose.yml up --build --force-recreate
+	@docker-compose -f docker-compose.yml run --rm lana-cli
 
 .PHONY: mod
 mod:
@@ -9,4 +9,4 @@ mod:
 
 .PHONY: test
 test:
-	@docker-compose -f docker-compose.test.yml run lana-test
+	@docker-compose -f docker-compose.test.yml run --rm lana-test

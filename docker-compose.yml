@@ -1,9 +1,31 @@
 version: '3'
 
+networks:
+  lana-network:
+    driver: bridge
+
 services:
   lana-api:
     build:
         context: ./
-        dockerfile: ./docker/Dockerfile
+        dockerfile: ./Dockerfile
+    networks:
+      lana-network:
+        aliases:
+          - api
     ports:
-      - "8080:8080"
+      - "3000:80"
+    environment:
+      PORT: "80"
+  lana-cli:
+    image: golang:1.14-alpine
+    volumes:
+      - $PWD:/go/src/github.com/xabi93/lana-test
+    working_dir: /go/src/github.com/xabi93/lana-test
+    networks:
+      - lana-network
+    depends_on:
+      - lana-api
+    environment:
+      BASE_URL: "http://api"
+    command: go run cmd/cli/main.go
