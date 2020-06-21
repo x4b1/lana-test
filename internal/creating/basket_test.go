@@ -27,6 +27,8 @@ type CreatingBasketSuite struct {
 
 	service *creating.BasketCreator
 	baskets *basketsMock
+
+	currency checkout.BasketCurrency
 }
 
 func (s *CreatingBasketSuite) SetupTest() {
@@ -44,7 +46,7 @@ func (s CreatingBasketSuite) TestFailsWhenCannotSaveNewBasket() {
 		On("Add", s.ctx, mock.AnythingOfType("checkout.Basket")).
 		Return(expectedError)
 
-	_, err := s.service.Create(s.ctx)
+	_, err := s.service.Create(s.ctx, s.currency)
 
 	s.Equal(expectedError, err)
 }
@@ -54,7 +56,7 @@ func (s CreatingBasketSuite) TestSuccessWhenSaveAndReturnsNewBasket() {
 		On("Add", s.ctx, mock.AnythingOfType("checkout.Basket")).
 		Return(nil)
 
-	b, err := s.service.Create(s.ctx)
+	b, err := s.service.Create(s.ctx, s.currency)
 
 	s.Nil(err)
 	s.NotNil(b)

@@ -27,7 +27,7 @@ func (tc TotalCalculator) Calculate() (money.Money, error) {
 
 func (tc TotalCalculator) total() (money.Money, error) {
 	var err error
-	total := money.Eur(0)
+	total := money.FromCurrency(0, money.Currency(tc.Basket.Currency))
 
 	for _, i := range tc.Basket.Items {
 		p, ok := tc.Products[i.Product]

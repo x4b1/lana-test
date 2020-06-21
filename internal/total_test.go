@@ -16,6 +16,7 @@ func TestCalculateTotalReturnsTotal(t *testing.T) {
 	}
 
 	b := checkout.Basket{
+		Currency: checkout.BasketCurrency(money.EUR),
 		Items: map[checkout.ProductCode]checkout.Item{
 			product.Code: checkout.Item{
 				Product:  product.Code,

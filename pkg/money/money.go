@@ -23,6 +23,13 @@ func Usd(a int) Money {
 	}
 }
 
+func FromCurrency(a int, c Currency) Money {
+	return Money{
+		Amount:   a,
+		Currency: c,
+	}
+}
+
 type Currency string
 
 func (c Currency) Symbol() string {

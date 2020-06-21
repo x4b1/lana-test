@@ -8,6 +8,7 @@ import (
 	checkout "github.com/xabi93/lana-test/internal"
 	"github.com/xabi93/lana-test/internal/deleting"
 	"github.com/xabi93/lana-test/pkg/errors"
+	"github.com/xabi93/lana-test/pkg/money"
 
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
@@ -44,7 +45,7 @@ type DeleteBasketSuite struct {
 }
 
 func (s *DeleteBasketSuite) SetupSuite() {
-	s.basket = checkout.NewBasket()
+	s.basket = checkout.NewBasket(checkout.BasketCurrency(money.EUR))
 }
 
 func (s *DeleteBasketSuite) SetupTest() {

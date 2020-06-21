@@ -7,13 +7,16 @@ import (
 
 	checkout "github.com/xabi93/lana-test/internal"
 	"github.com/xabi93/lana-test/pkg/errors"
+	"github.com/xabi93/lana-test/pkg/money"
 
 	"github.com/gorilla/mux"
 )
 
 func (s Server) handleBasketCreate() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		b, err := s.creating.Create(r.Context())
+		// Default to Eur to not complicate more
+		eur := checkout.BasketCurrency(money.EUR)
+		b, err := s.creating.Create(r.Context(), eur)
 		if err != nil {
 			s.responseError(r.Context(), w, err)
 			return

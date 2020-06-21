@@ -3,6 +3,7 @@ package checkout
 import (
 	"errors"
 
+	"github.com/xabi93/lana-test/pkg/money"
 	"github.com/xabi93/lana-test/pkg/uuid"
 )
 
@@ -11,20 +12,25 @@ var (
 )
 
 //NewBasket returns a new basket initialized with default data
-func NewBasket() Basket {
+func NewBasket(curr BasketCurrency) Basket {
 	return Basket{
-		ID:    BasketID(uuid.New()),
-		Items: make(map[ProductCode]Item),
+		ID:       BasketID(uuid.New()),
+		Currency: curr,
+		Items:    make(map[ProductCode]Item),
 	}
 }
 
 //BasketID defines the unique id for a basket
 type BasketID string
 
+//BasketCurrency defines the currency of a basket
+type BasketCurrency money.Currency
+
 //Basket defines a basket in the system
 type Basket struct {
-	ID    BasketID
-	Items map[ProductCode]Item
+	ID       BasketID
+	Currency BasketCurrency
+	Items    map[ProductCode]Item
 }
 
 //AddItem given a product adds a new item to the basket

@@ -78,7 +78,7 @@ func (s *CalculatingBasketTotalSuite) SetupSuite() {
 
 	s.productList = map[checkout.ProductCode]checkout.Product{product.Code: product}
 
-	s.basket = checkout.NewBasket()
+	s.basket = checkout.NewBasket(checkout.BasketCurrency(money.EUR))
 	s.basket.AddItem(product.Code)
 	s.basket.AddItem(product.Code)
 	s.basket.AddItem(product.Code)
