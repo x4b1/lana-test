@@ -4,6 +4,7 @@ import (
 	"context"
 
 	checkout "github.com/xabi93/lana-test/internal"
+	"github.com/xabi93/lana-test/pkg/errors"
 )
 
 type baskets interface {
@@ -28,7 +29,7 @@ func (s BasketDeleter) Delete(ctx context.Context, id checkout.BasketID) error {
 		return err
 	}
 	if p == nil {
-		return checkout.ErrBasketNotExists
+		return errors.WrapNotFound(checkout.ErrBasketNotExists, "Deleting basket")
 	}
 
 	return s.baskets.Delete(ctx, id)

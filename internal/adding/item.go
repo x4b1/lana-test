@@ -4,6 +4,7 @@ import (
 	"context"
 
 	checkout "github.com/xabi93/lana-test/internal"
+	"github.com/xabi93/lana-test/pkg/errors"
 )
 
 //baskets provides access to baskets repository
@@ -51,7 +52,7 @@ func (s BasketItemsAdder) getBasket(ctx context.Context, id checkout.BasketID) (
 		return nil, err
 	}
 	if p == nil {
-		return nil, checkout.ErrBasketNotExists
+		return nil, errors.WrapNotFound(checkout.ErrBasketNotExists, "Adding item to basket")
 	}
 
 	return p, nil
@@ -63,7 +64,7 @@ func (s BasketItemsAdder) getProduct(ctx context.Context, c checkout.ProductCode
 		return nil, err
 	}
 	if p == nil {
-		return nil, checkout.ErrProductNotExists
+		return nil, errors.WrapNotFound(checkout.ErrProductNotExists, "Adding item to basket")
 	}
 
 	return p, nil

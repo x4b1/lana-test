@@ -2,12 +2,13 @@ package calculating_test
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"testing"
 
 	checkout "github.com/xabi93/lana-test/internal"
 	"github.com/xabi93/lana-test/internal/calculating"
 
+	"github.com/xabi93/lana-test/pkg/errors"
 	"github.com/xabi93/lana-test/pkg/money"
 
 	"github.com/stretchr/testify/mock"
@@ -96,7 +97,7 @@ func (s *CalculatingBasketTotalSuite) SetupTest() {
 }
 
 func (s CalculatingBasketTotalSuite) TestFailsCannotGetBasket() {
-	expectedError := errors.New("unexpected error")
+	expectedError := fmt.Errorf("unexpected error")
 
 	s.baskets.
 		On("Get", s.ctx, s.basket.ID).
@@ -114,11 +115,12 @@ func (s CalculatingBasketTotalSuite) TestFailsBasketDoesNotExists() {
 
 	_, err := s.service.Total(s.ctx, s.basket.ID)
 
-	s.Equal(checkout.ErrBasketNotExists, err)
+	s.True(errors.IsNotFound(err))
+	s.Contains(err.Error(), checkout.ErrBasketNotExists.Error())
 }
 
 func (s CalculatingBasketTotalSuite) TestFailsWhenCannotGetProducts() {
-	expectedError := errors.New("unexpected error")
+	expectedError := fmt.Errorf("unexpected error")
 
 	s.baskets.
 		On("Get", s.ctx, s.basket.ID).
@@ -134,7 +136,7 @@ func (s CalculatingBasketTotalSuite) TestFailsWhenCannotGetProducts() {
 }
 
 func (s CalculatingBasketTotalSuite) TestFailsWhenCannotGetDiscounts() {
-	expectedError := errors.New("unexpected error")
+	expectedError := fmt.Errorf("unexpected error")
 
 	s.baskets.
 		On("Get", s.ctx, s.basket.ID).

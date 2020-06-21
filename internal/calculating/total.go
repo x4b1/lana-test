@@ -4,6 +4,7 @@ import (
 	"context"
 
 	checkout "github.com/xabi93/lana-test/internal"
+	"github.com/xabi93/lana-test/pkg/errors"
 	"github.com/xabi93/lana-test/pkg/money"
 )
 
@@ -66,7 +67,7 @@ func (t TotalBasket) getBasket(ctx context.Context, id checkout.BasketID) (*chec
 		return nil, err
 	}
 	if p == nil {
-		return nil, checkout.ErrBasketNotExists
+		return nil, errors.WrapNotFound(checkout.ErrBasketNotExists, "Calculating total amount")
 	}
 
 	return p, nil

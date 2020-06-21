@@ -2,12 +2,13 @@ package adding_test
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"testing"
 
 	checkout "github.com/xabi93/lana-test/internal"
 	"github.com/xabi93/lana-test/internal/adding"
 
+	"github.com/xabi93/lana-test/pkg/errors"
 	"github.com/xabi93/lana-test/pkg/money"
 
 	"github.com/stretchr/testify/mock"
@@ -78,7 +79,7 @@ func (s *AddingItemsSuite) SetupTest() {
 }
 
 func (s AddingItemsSuite) TestFailsCannotGetBasket() {
-	expectedError := errors.New("unexpected error")
+	expectedError := fmt.Errorf("unexpected error")
 
 	s.baskets.
 		On("Get", s.ctx, s.basket.ID).
@@ -96,11 +97,12 @@ func (s AddingItemsSuite) TestFailsBasketDoesNotExists() {
 
 	err := s.service.Add(s.ctx, s.basket.ID, s.product.Code)
 
-	s.Equal(checkout.ErrBasketNotExists, err)
+	s.True(errors.IsNotFound(err))
+	s.Contains(err.Error(), checkout.ErrBasketNotExists.Error())
 }
 
 func (s AddingItemsSuite) TestFailsWhenCannotGetProduct() {
-	expectedError := errors.New("unexpected error")
+	expectedError := fmt.Errorf("unexpected error")
 
 	s.baskets.
 		On("Get", s.ctx, s.basket.ID).
@@ -126,11 +128,13 @@ func (s AddingItemsSuite) TestFailsWhenProductNotExists() {
 
 	err := s.service.Add(s.ctx, s.basket.ID, s.product.Code)
 
-	s.Equal(checkout.ErrProductNotExists, err)
+	s.True(errors.IsNotFound(err))
+	s.Contains(err.Error(), checkout.ErrProductNotExists.Error())
+
 }
 
 func (s AddingItemsSuite) TestFailsWhenCannotSaveBasket() {
-	expectedError := errors.New("unexpected error")
+	expectedError := fmt.Errorf("unexpected error")
 
 	s.baskets.
 		On("Get", s.ctx, s.basket.ID).
