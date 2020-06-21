@@ -46,10 +46,8 @@ func (br *BasketRepository) Get(_ context.Context, id checkout.BasketID) (*check
 func (br *BasketRepository) Delete(_ context.Context, id checkout.BasketID) error {
 	br.mutex.Lock()
 	defer br.mutex.Unlock()
-	_, exists := br.db.baskets[id]
-	if !exists {
-		return fmt.Errorf("basket not exists")
-	}
+
+	delete(br.db.baskets, id)
 
 	return nil
 }

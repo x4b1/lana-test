@@ -144,6 +144,9 @@ func (s *ServerSuite) TestDeleteExistingBasketDeletes() {
 
 	response := requestDeleteBasket(s.server, basketResp.ID)
 	s.Equal(http.StatusNoContent, response.Code)
+
+	response = requestGetTotal(s.server, basketResp.ID)
+	s.Equal(http.StatusNotFound, response.Code)
 }
 
 func TestServerSuite(t *testing.T) {
