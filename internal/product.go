@@ -17,7 +17,7 @@ type ProductCode string
 type ProductName string
 
 //ProductPrice defines the price of a product
-type ProductPrice money.Money
+type ProductPrice struct{ money.Money }
 
 type Product struct {
 	Code  ProductCode

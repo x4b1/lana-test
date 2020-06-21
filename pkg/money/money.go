@@ -11,15 +11,15 @@ const (
 
 func Eur(a int) Money {
 	return Money{
-		amount:   a,
-		currency: EUR,
+		Amount:   a,
+		Currency: EUR,
 	}
 }
 
 func Usd(a int) Money {
 	return Money{
-		amount:   a,
-		currency: USD,
+		Amount:   a,
+		Currency: USD,
 	}
 }
 
@@ -37,8 +37,8 @@ func (c Currency) Symbol() string {
 }
 
 type Money struct {
-	amount   int
-	currency Currency
+	Amount   int
+	Currency Currency
 }
 
 func (m Money) Add(o Money) (Money, error) {
@@ -46,7 +46,7 @@ func (m Money) Add(o Money) (Money, error) {
 		return Money{}, err
 	}
 
-	return Money{amount: m.amount + o.amount, currency: m.currency}, nil
+	return Money{Amount: m.Amount + o.Amount, Currency: m.Currency}, nil
 }
 
 func (m Money) Substract(o Money) (Money, error) {
@@ -54,25 +54,31 @@ func (m Money) Substract(o Money) (Money, error) {
 		return Money{}, err
 	}
 
-	return Money{amount: m.amount - o.amount, currency: m.currency}, nil
+	return Money{Amount: m.Amount - o.Amount, Currency: m.Currency}, nil
 }
 
 func (m Money) Multiply(f int) Money {
-	return Money{amount: m.amount * f, currency: m.currency}
+	return Money{Amount: m.Amount * f, Currency: m.Currency}
 }
 
 func (m Money) Divide(f int) Money {
-	return Money{amount: m.amount / f, currency: m.currency}
+	return Money{Amount: m.Amount / f, Currency: m.Currency}
+}
+
+func (m Money) Discount(p int) Money {
+	discount := int(float64(m.Amount) * (float64(p) / 100))
+
+	return Money{Amount: discount, Currency: m.Currency}
 }
 
 func (m Money) sameCurrency(o Money) error {
-	if m.currency != o.currency {
-		return fmt.Errorf("currency %s does not match with %s", m.currency, o.currency)
+	if m.Currency != o.Currency {
+		return fmt.Errorf("currency %s does not match with %s", m.Currency, o.Currency)
 	}
 
 	return nil
 }
 
 func (m Money) String() string {
-	return fmt.Sprintf("%.2f %s", float64(m.amount)/100, m.currency.Symbol())
+	return fmt.Sprintf("%.2f%s", float64(m.Amount)/100, m.Currency.Symbol())
 }

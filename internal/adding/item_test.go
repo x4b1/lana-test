@@ -62,9 +62,9 @@ type AddingItemsSuite struct {
 func (s *AddingItemsSuite) SetupSuite() {
 	s.basket = checkout.NewBasket()
 	s.product = checkout.Product{
-		Code:  checkout.ProductCode(2),
+		Code:  checkout.ProductCode("PEN"),
 		Name:  checkout.ProductName("Lana Pen"),
-		Price: checkout.ProductPrice(money.Eur(99)),
+		Price: checkout.ProductPrice{Money: money.Eur(99)},
 	}
 }
 
