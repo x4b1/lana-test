@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  lana-api:
+    build:
+        context: ./
+        dockerfile: ./docker/Dockerfile
+    ports:
+      - "8080:8080"

@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  lana-test:
+    image: golang:1.14-alpine
+    volumes:
+      - $PWD:/go/src/github.com/xabi93/lana-test
+    working_dir: /go/src/github.com/xabi93/lana-test
+    environment:
+      - CGO_ENABLED=0
+    command: go test ./... -v

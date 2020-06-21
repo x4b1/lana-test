@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"net"
 	"net/http"
 
 	"github.com/xabi93/lana-test/internal/adding"
@@ -66,10 +67,10 @@ func (s *Server) initRoutes() {
 
 func (s Server) Run(addr string) {
 	if addr == "" {
-		addr = ":3000"
+		addr = "3000"
 	}
 
 	s.logger.Info(context.Background(), "Server running on: %s", addr)
 
-	s.logger.Fatal(context.Background(), http.ListenAndServe(addr, s.router))
+	s.logger.Fatal(context.Background(), http.ListenAndServe(net.JoinHostPort("", addr), s.router))
 }
