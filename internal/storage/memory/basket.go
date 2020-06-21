@@ -24,7 +24,7 @@ func (br *BasketRepository) Add(_ context.Context, b checkout.Basket) error {
 	br.mutex.Lock()
 	defer br.mutex.Unlock()
 	if _, ok := br.db.baskets[b.ID]; ok {
-		return fmt.Errorf("Duplicated basket %s", b.ID)
+		return fmt.Errorf("duplicated basket %s", b.ID)
 	}
 
 	br.db.baskets[b.ID] = b

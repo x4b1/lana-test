@@ -6,7 +6,7 @@ import (
 	"github.com/xabi93/lana-test/pkg/money"
 )
 
-var ErrNotMatchingItemProduct = errors.New("Not matching item with product")
+var ErrNotMatchingItemProduct = errors.New("not matching item with product")
 
 //TotalCalculator defines the required data that needs system to calculate total amount of a basket applying discounts
 type TotalCalculator struct {

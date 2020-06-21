@@ -23,7 +23,7 @@ func NewDB() *DB {
 	}
 
 	return &DB{
-		baskets: make(map[checkout.BasketID]checkout.Basket, 0),
+		baskets: make(map[checkout.BasketID]checkout.Basket),
 		products: map[checkout.ProductCode]checkout.Product{
 			pen.Code:    pen,
 			tshirt.Code: tshirt,
