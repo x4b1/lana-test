@@ -24,7 +24,7 @@ func TestNewCreatesCorrectErrorType(t *testing.T) {
 	}
 
 	for name, c := range cases {
-		t.Run(fmt.Sprintf("%s", name), func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			require.True(t, c.checkFunc(c.newFunc("some error")))
 		})
 	}
@@ -44,7 +44,7 @@ func TestWrapsWithCorrectErrorType(t *testing.T) {
 	someError := fmt.Errorf("Some error")
 
 	for name, c := range cases {
-		t.Run(fmt.Sprintf("%s", name), func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			require.True(t, c.checkFunc(c.newFunc(someError, "wrap error")))
 		})
 	}

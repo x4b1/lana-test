@@ -3,13 +3,12 @@ package creating
 import (
 	"context"
 
-	basket "github.com/xabi93/lana-test/internal"
 	checkout "github.com/xabi93/lana-test/internal"
 )
 
 //baskets provides access to baskets repository
 type baskets interface {
-	Add(context.Context, basket.Basket) error
+	Add(context.Context, checkout.Basket) error
 }
 
 //NewBasketCreator creates a new BasketCreator instance
@@ -23,11 +22,11 @@ type BasketCreator struct {
 }
 
 //Create creates a new basket in system an returns it
-func (bc BasketCreator) Create(ctx context.Context, c checkout.BasketCurrency) (basket.Basket, error) {
-	b := basket.NewBasket(c)
+func (bc BasketCreator) Create(ctx context.Context, c checkout.BasketCurrency) (checkout.Basket, error) {
+	b := checkout.NewBasket(c)
 
 	if err := bc.baskets.Add(ctx, b); err != nil {
-		return basket.Basket{}, err
+		return checkout.Basket{}, err
 	}
 
 	return b, nil
