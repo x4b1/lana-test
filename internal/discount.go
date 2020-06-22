@@ -6,7 +6,7 @@ import (
 
 //Discount defines a general discount
 type Discount interface {
-	Apply(itemList map[ProductCode]Item, total money.Money) (money.Money, error)
+	Calculate(itemList map[ProductCode]Item) money.Money
 }
 
 // BuyXGetXDiscount defines the discount of buying x amount of one product getting x free
@@ -15,14 +15,14 @@ type BuyXGetXDiscount struct {
 	Factor  int
 }
 
-//Apply given a list of items and amount returns the total amount with discount applied
-func (d BuyXGetXDiscount) Apply(items map[ProductCode]Item, total money.Money) (money.Money, error) {
+//Calculate given a list of items and amount returns the total amount with discount applied
+func (d BuyXGetXDiscount) Calculate(items map[ProductCode]Item) money.Money {
 	i, ok := items[d.Product.Code]
 	if !ok {
-		return total, nil
+		return money.Money{}
 	}
 
-	return total.Substract(d.Product.Price.Multiply(i.Quantity / d.Factor))
+	return d.Product.Price.Multiply(i.Quantity / d.Factor)
 }
 
 // BulkPurchaseDiscount defines the discount of getting a minimun quantity of products applies x percent discount to that product
@@ -32,17 +32,17 @@ type BulkPurchaseDiscount struct {
 	DiscountPercent int
 }
 
-//Apply given a list of items and amount returns the total amount with discount applied
-// if the minimun queantity of the discount product has been reached
-func (d BulkPurchaseDiscount) Apply(items map[ProductCode]Item, total money.Money) (money.Money, error) {
+//Calculate given a list of items and amount returns the total amount with discount applied
+// if the minimun quantity of the discount product has been reached
+func (d BulkPurchaseDiscount) Calculate(items map[ProductCode]Item) money.Money {
 	i, ok := items[d.Product.Code]
 	if !ok {
-		return total, nil
+		return money.Money{}
 	}
 
 	if i.Quantity < d.MinQuantity {
-		return total, nil
+		return money.Money{}
 	}
 
-	return total.Substract(d.Product.Price.Multiply(i.Quantity).Discount(d.DiscountPercent))
+	return d.Product.Price.Multiply(i.Quantity).Discount(d.DiscountPercent)
 }

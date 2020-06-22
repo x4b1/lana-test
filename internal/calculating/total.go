@@ -52,13 +52,7 @@ func (t TotalBasket) Total(ctx context.Context, id checkout.BasketID) (money.Mon
 		return money.Money{}, err
 	}
 
-	calculator := checkout.TotalCalculator{
-		Discounts: d,
-		Basket:    *b,
-		Products:  p,
-	}
-
-	return calculator.Calculate()
+	return checkout.BasketTotalWithDiscounts(*b, p, d)
 }
 
 func (t TotalBasket) getBasket(ctx context.Context, id checkout.BasketID) (*checkout.Basket, error) {

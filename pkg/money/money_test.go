@@ -60,3 +60,18 @@ func TestAppliesCorrecltyDiscountToAmount(t *testing.T) {
 func TestPrintsAmountCorrecltyFormated(t *testing.T) {
 	require.Equal(t, "10.50\u20ac", money.Eur(1050).String())
 }
+
+func TestFromCurrencyInitializesCorrectly(t *testing.T) {
+	m := money.FromCurrency(money.EUR)
+
+	require.Equal(t, m.Amount, 0)
+	require.Equal(t, m.Currency, money.EUR)
+}
+
+func TestEmptyIsZero(t *testing.T) {
+	require.True(t, money.Money{}.IsZero())
+}
+
+func TestEurInitializedIsNotZero(t *testing.T) {
+	require.False(t, money.Eur(0).IsZero())
+}

@@ -9,7 +9,7 @@ import (
 	"github.com/xabi93/lana-test/pkg/money"
 )
 
-func TestBuyXGetXDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T) {
+func TestBuyXGetXDiscountGivenAListOfItemsCalculatesTotalDiscount(t *testing.T) {
 	product := checkout.Product{
 		Code:  checkout.ProductCode("PEN"),
 		Name:  checkout.ProductName("Lana Pen"),
@@ -33,7 +33,7 @@ func TestBuyXGetXDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T) {
 				},
 			},
 			amount:   money.Eur(3500),
-			Expected: money.Eur(3000),
+			Expected: money.Eur(500),
 		},
 		"matched criteria twice": testCase{
 			items: map[checkout.ProductCode]checkout.Item{
@@ -47,7 +47,7 @@ func TestBuyXGetXDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T) {
 				},
 			},
 			amount:   money.Eur(4000),
-			Expected: money.Eur(3000),
+			Expected: money.Eur(1000),
 		},
 		"not match criteria": testCase{
 			items: map[checkout.ProductCode]checkout.Item{
@@ -57,7 +57,7 @@ func TestBuyXGetXDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T) {
 				},
 			},
 			amount:   money.Eur(2000),
-			Expected: money.Eur(2000),
+			Expected: money.Money{},
 		},
 	}
 	d := checkout.BuyXGetXDiscount{
@@ -66,14 +66,14 @@ func TestBuyXGetXDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T) {
 	}
 	for name, c := range testCases {
 		t.Run(name, func(t *testing.T) {
-			amount, err := d.Apply(c.items, c.amount)
-			require.Nil(t, err)
+			amount := d.Calculate(c.items)
+
 			require.Equal(t, c.Expected, amount)
 		})
 	}
 }
 
-func TestBulkPurchaseDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T) {
+func TestBulkPurchaseDiscountGivenAListOfItemsCalculatesTotalDiscount(t *testing.T) {
 	product := checkout.Product{
 		Code:  checkout.ProductCode("TSHIRT"),
 		Name:  checkout.ProductName("Lana T-Shirt"),
@@ -97,7 +97,7 @@ func TestBulkPurchaseDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T
 				},
 			},
 			amount:   money.Eur(8500),
-			Expected: money.Eur(6500),
+			Expected: money.Eur(2000),
 		},
 		"not match criteria": testCase{
 			items: map[checkout.ProductCode]checkout.Item{
@@ -107,7 +107,7 @@ func TestBulkPurchaseDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T
 				},
 			},
 			amount:   money.Eur(500),
-			Expected: money.Eur(500),
+			Expected: money.Money{},
 		},
 	}
 	d := checkout.BulkPurchaseDiscount{
@@ -117,8 +117,8 @@ func TestBulkPurchaseDiscountGivenAListOfItemsCalculatesTotalAmount(t *testing.T
 	}
 	for name, c := range testCases {
 		t.Run(name, func(t *testing.T) {
-			amount, err := d.Apply(c.items, c.amount)
-			require.Nil(t, err)
+			amount := d.Calculate(c.items)
+
 			require.Equal(t, c.Expected, amount)
 		})
 	}

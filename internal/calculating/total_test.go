@@ -83,7 +83,7 @@ func (s *CalculatingBasketTotalSuite) SetupSuite() {
 	s.basket.AddItem(product.Code)
 	s.basket.AddItem(product.Code)
 
-	s.discountList = []checkout.Discount{new(halfAmountDiscount)}
+	s.discountList = []checkout.Discount{new(oneEurDiscount)}
 }
 
 func (s *CalculatingBasketTotalSuite) SetupTest() {
@@ -171,15 +171,15 @@ func (s CalculatingBasketTotalSuite) TestReturnsTotalAmountCalculated() {
 	total, err := s.service.Total(s.ctx, s.basket.ID)
 
 	s.NoError(err)
-	s.Equal(money.Eur(2250), total)
+	s.Equal(money.Eur(4400), total)
 }
 
 func TestCalculatingBasketTotalSuite(t *testing.T) {
 	suite.Run(t, new(CalculatingBasketTotalSuite))
 }
 
-type halfAmountDiscount struct{}
+type oneEurDiscount struct{}
 
-func (d halfAmountDiscount) Apply(itemList map[checkout.ProductCode]checkout.Item, total money.Money) (money.Money, error) {
-	return total.Divide(2), nil
+func (d oneEurDiscount) Calculate(itemList map[checkout.ProductCode]checkout.Item) money.Money {
+	return money.Eur(100)
 }
