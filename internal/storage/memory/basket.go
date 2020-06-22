@@ -20,6 +20,7 @@ type BasketRepository struct {
 	mutex sync.RWMutex
 }
 
+// Add adds a new basket to storage if not exists
 func (br *BasketRepository) Add(_ context.Context, b checkout.Basket) error {
 	br.mutex.Lock()
 	defer br.mutex.Unlock()
@@ -32,6 +33,7 @@ func (br *BasketRepository) Add(_ context.Context, b checkout.Basket) error {
 	return nil
 }
 
+// Get gets the basket by id and returns if it exists
 func (br *BasketRepository) Get(_ context.Context, id checkout.BasketID) (*checkout.Basket, error) {
 	br.mutex.Lock()
 	defer br.mutex.Unlock()
@@ -43,6 +45,7 @@ func (br *BasketRepository) Get(_ context.Context, id checkout.BasketID) (*check
 	return &b, nil
 }
 
+// Delete deletes the basket by id if exists
 func (br *BasketRepository) Delete(_ context.Context, id checkout.BasketID) error {
 	br.mutex.Lock()
 	defer br.mutex.Unlock()
@@ -52,6 +55,7 @@ func (br *BasketRepository) Delete(_ context.Context, id checkout.BasketID) erro
 	return nil
 }
 
+// Save updates the basket in the storage if exists
 func (br *BasketRepository) Save(_ context.Context, b checkout.Basket) error {
 	br.mutex.Lock()
 	defer br.mutex.Unlock()

@@ -19,6 +19,7 @@ type ProductRepository struct {
 	mutex sync.RWMutex
 }
 
+// Get gets the product by code and returns if it exists
 func (pr *ProductRepository) Get(ctx context.Context, c checkout.ProductCode) (*checkout.Product, error) {
 	pr.mutex.Lock()
 	defer pr.mutex.Unlock()
@@ -30,6 +31,7 @@ func (pr *ProductRepository) Get(ctx context.Context, c checkout.ProductCode) (*
 	return &p, nil
 }
 
+//All returns all products in the storage
 func (pr *ProductRepository) All(ctx context.Context) (map[checkout.ProductCode]checkout.Product, error) {
 	pr.mutex.Lock()
 	defer pr.mutex.Unlock()

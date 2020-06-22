@@ -12,6 +12,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// handleBasketCreate gets the http request and creates the basket in the system
+// returns 201 if success if not returns the error
 func (s Server) handleBasketCreate() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Default to Eur to not complicate more
@@ -26,6 +28,8 @@ func (s Server) handleBasketCreate() http.HandlerFunc {
 	}
 }
 
+// handleAddItemBasket gets the http request and adds an item to a basket
+// returns 201 if success if not returns the error
 func (s Server) handleAddItemBasket() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Body == nil || r.Body == http.NoBody {
@@ -57,6 +61,8 @@ func (s Server) handleAddItemBasket() http.HandlerFunc {
 	}
 }
 
+// handleBasketDelete gets the http request and deletes the basket in the system
+// returns 204 if success if not returns the error
 func (s Server) handleBasketDelete() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := checkout.BasketID(mux.Vars(r)["id"])
@@ -70,6 +76,7 @@ func (s Server) handleBasketDelete() http.HandlerFunc {
 	}
 }
 
+// handleTotalBasket gets the http request and calculates the total amount of the basket
 func (s Server) handleTotalBasket() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := checkout.BasketID(mux.Vars(r)["id"])
@@ -84,6 +91,7 @@ func (s Server) handleTotalBasket() http.HandlerFunc {
 	}
 }
 
+// responseError maps the errors from the app to http status codes
 func (s Server) responseError(ctx context.Context, w http.ResponseWriter, err error) {
 	var code int
 	switch {
@@ -100,12 +108,14 @@ func (s Server) responseError(ctx context.Context, w http.ResponseWriter, err er
 	s.respond(w, code, errorResponse{Message: err.Error()})
 }
 
+// respond is an auxiliar function to create the server response
 func (s Server) respond(w http.ResponseWriter, code int, msg interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
 	json.NewEncoder(w).Encode(msg)
 }
 
+// decodeRequest is an auxiliar function to get request body payload in a struct
 func decodeRequest(r *http.Request, payload interface{}) error {
 	return json.NewDecoder(r.Body).Decode(payload)
 }

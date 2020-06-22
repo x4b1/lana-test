@@ -19,6 +19,7 @@ type DiscountRepository struct {
 	mutex sync.RWMutex
 }
 
+//All returns all discounts in the storage
 func (pr *DiscountRepository) All(ctx context.Context) ([]checkout.Discount, error) {
 	pr.mutex.Lock()
 	defer pr.mutex.Unlock()
