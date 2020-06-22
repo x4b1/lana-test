@@ -51,3 +51,9 @@ Code is divided in the following structure
   - `money/`: Implementation of the money patern to handle al money transactions.
   - `uuid/`: unique ID generator
 - `./github`: Here is defined the flows that will follow github runners.
+
+## Data modeling
+
+The test only requires memory storage, but I have created a diagram how I would model if I use a relational DB to store data:
+
+![Data model](./assets/lana-db.png)
