@@ -9,6 +9,6 @@ updates:
   schedule:
     interval: weekly
 - package-ecosystem: ""
-  directory: /github
+  directory: /github/workflows
   schedule:
     interval: weekly
