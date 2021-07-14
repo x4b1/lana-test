@@ -9,6 +9,6 @@ require (
 	github.com/manifoldco/promptui v0.7.0
 	github.com/mattn/go-colorable v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.6.0
-	github.com/stretchr/testify v1.6.1
+	github.com/stretchr/testify v1.7.0
 	golang.org/x/sys v0.0.0-20200620081246-981b61492c35 // indirect
 )
